@@ -3,28 +3,55 @@ import './SearchBar.css';
 
 
 
-const sortByOptions = {
-    'Best Match':'best_match',
-    'Highest Rated':'rating',
-    'Most Reviewed':'review_count'
-  };
 
 export class SearchBar extends Component {
+  
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      term: '',
+      location: '',
+      sortBy: 'best_match'
+    };
+              
+    this.sortByOptions = {
+      'Best Match':'best_match',
+      'Highest Rated':'rating',
+      'Most Reviewed':'review_count'
+    };
+  }
+
+
+  getSortByClass(sortByOption) {
+      if(sortByOption === this.state.sortBy) {
+        return 'active';
+      }
+        return '';
+  }
+
+  handleSortByChange(sortByOption) {
+    this.setState({sortBy: sortByOption});
+  }
+
 
   // The purpose of renderSortByOptions() is to dynamically create the list items 
   // needed to display the sort options (Best Match, Highest Rated, Most Reviewed).
 
   // The method should iterate through the keys and values of the sortByOptions object
-  //  and return a list item.
+  //  and return a list item with dynamic attributes
   
 
     renderSortByOptions() {  
-        return Object.keys(sortByOptions).map(sortByOption => {
-            let sortByOptionValue = sortByOptions[sortByOption];
-            return <li key={sortByOptionValue}> {sortByOption} </li>
+        return Object.keys(this.sortByOptions).map(sortByOption => {
+            let sortByOptionValue = this.sortByOptions[sortByOption];
+            return <li className={this.getSortByClass(sortByOptionValue)} 
+                        onClick={this.handleSortByChange.bind(this, sortByOptionValue)} 
+                        key={sortByOptionValue}> {sortByOption} </li>
         });
     }
     
+
     render() {
         return (
                 <div className="SearchBar">
