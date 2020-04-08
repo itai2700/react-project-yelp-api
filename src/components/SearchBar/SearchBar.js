@@ -20,6 +20,9 @@ export class SearchBar extends Component {
       'Highest Rated':'rating',
       'Most Reviewed':'review_count'
     };
+
+    this.handleTermChange = this.handleTermChange.bind(this);
+    this.handleLocationChange = this.handleLocationChange.bind(this);
   }
 
 
@@ -34,6 +37,13 @@ export class SearchBar extends Component {
     this.setState({sortBy: sortByOption});
   }
 
+  handleTermChange(event) {
+    this.setState({ term: event.target.value });
+  }
+  handleLocationChange(event) {
+    this.setState({ location: event.target.value });
+  }
+
 
   // The purpose of renderSortByOptions() is to dynamically create the list items 
   // needed to display the sort options (Best Match, Highest Rated, Most Reviewed).
@@ -44,7 +54,9 @@ export class SearchBar extends Component {
 
     renderSortByOptions() {  
         return Object.keys(this.sortByOptions).map(sortByOption => {
+
             let sortByOptionValue = this.sortByOptions[sortByOption];
+
             return <li className={this.getSortByClass(sortByOptionValue)} 
                         onClick={this.handleSortByChange.bind(this, sortByOptionValue)} 
                         key={sortByOptionValue}> {sortByOption} </li>
@@ -61,8 +73,8 @@ export class SearchBar extends Component {
     </ul>
   </div>
   <div className="SearchBar-fields">
-    <input placeholder="Search Businesses" />
-    <input placeholder="Where?" />
+    <input onChange={this.handleTermChange} placeholder="Search Businesses" />
+    <input onChange={this.handleLocationChange} placeholder="Where?" />
   </div>
   <div className="SearchBar-submit">
     <a>Let's Go</a>
